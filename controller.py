@@ -1,18 +1,14 @@
-# main.py
+import json
+from flask import Flask, jsonify, request
 
-from fastapi import FastAPI
-from pydantic import BaseModel
+app = Flask(__name__)
 
-app = FastAPI()
+@app.route('/receipts/process', methods=['POST'])
+def process_receipt():
+    data = request.get_json()
+    return jsonify(data)
 
-class Item(BaseModel):
-    name: str
-    price: float
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-@app.post("/items/")
-def create_item(item: Item):
-    return item
+# 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
