@@ -1,43 +1,54 @@
 import json
-import uuid
-from flask import Flask, jsonify, request
-from data_manips import calculate_points, validate_receipt
+import os
+from flask import Flask, jsonify, request, session
+from data_manips import add_data, validate_receipt, get_receipt_points
 
 app = Flask(__name__)
+data = {}
 
 @app.route('/receipts/process', methods=['POST'])
 def process_receipt():
-    data = request.get_json()
+    """
+    Processes a receipt and stores the receipt information in a JSON file.
 
-    #make sure all fields are present
+    The receipt information should contain the following fields:
+    retailer, purchaseDate, purchaseTime, total, and items (list).
+   
+    Returns a JSON response with the receipt ID if the receipt is valid, or
+    a JSON response with an error message if the receipt is invalid.
+    """
+
+    data = request.get_json()
     if not validate_receipt(data):
         return jsonify({"error": "Invalid receipt"}), 400
     
-    # calculate points, generate uuid and save to temporary file
     else :  
-        id = uuid.uuid4()
-        points = calculate_points(data)
-        with open('data.json', 'a') as f:
-            json.dump({str(id): points}, f)
-            f.write('\n')
-
+        id = add_data(data)
         return jsonify({"id":id}), 200
     
 
 @app.route('/receipts/<id>/points', methods=['GET'])
 def get_points(id):
+    """
+    Retrieves the points for a receipt.
 
-    # Check if data.json exists
+    Args:
+        id (str): The receipt ID.
+
+    Returns:
+        JSON containing the points for the receipt, or an error message
+        if the receipt does not exist or the data file does not exist.
+    """
+    
     if not os.path.exists('data.json'):
         return jsonify({"error": "No data!"}), 400
-    
-    # Find points for this id
-    with open('data.json', 'r') as f:
-        data = json.load(f)
-        if id not in data:
-            return jsonify({"error": "Receipt not found"}), 400
+    else:
+        pts = get_receipt_points(id)
+        if pts == -1:
+            return jsonify({"error": "Receipt does not exist!"}), 400
         else:
-            return jsonify({"points": data[id]}), 200
+            return jsonify({id: pts}), 200
+        
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
