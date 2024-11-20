@@ -56,8 +56,7 @@ def validate_receipt(data) -> bool:
         data (dict): A dictionary containing receipt information.
 
     Returns:
-        bool: True if all required fields ('retailer', 'purchaseDate', 
-              'purchaseTime', 'total', and 'items') are present, False otherwise.
+        bool: True if valid, False otherwise.
     """
     if 'retailer' not in data or 'purchaseDate' not in data or 'purchaseTime' not in data or 'total' not in data or 'items' not in data:
         return False
@@ -68,7 +67,7 @@ def validate_receipt(data) -> bool:
     except ValueError:
         return False
     
-    if item is not list:
+    if type(data['items']) != list:
         return False
 
     for item in data['items']:
