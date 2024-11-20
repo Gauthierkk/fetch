@@ -1,9 +1,6 @@
 # Use the official Python image from Docker Hub as the base image
 FROM python:latest
 
-# Set environment variable to disable output buffering (real-time logging)
-ENV PYTHONUNBUFFERED=1
-
 # Copy the current directory's contents into the container at /app
 COPY . /app
 

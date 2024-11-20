@@ -16,17 +16,16 @@ The Receipt Processor API is a Flask-based API that processes receipts and calcu
 
 1. Clone the repository to your local machine.
 2. Navigate to the project directory.
-3. Run the following command to build the Docker image:
+3. Run the following command to build the Docker image and run the container:
 
-```bash
-docker build -t receipt-processor .
-```
+`./run_docker.sh`
 
-4. Run the following command to start the Docker container:
+Let's break down what this script does:
 
-```bash
-docker run -d --name receipt-processor -p 8000:8000 receipt-processor
-```
+1.  `docker stop receipt-processor` - stops the running container
+    `docker rm receipt-processor` - removes the stopped container
+    This ensures you can run the image from fresh. However be aware if you have a container with this name and/or image name running already they WILL be stopped.
+2.
 
 This will start the API in detached mode, mapping port 8000 on the host machine to port 8000 in the container.
 
@@ -64,12 +63,4 @@ The API will return a JSON response containing the points for the receipt.
 
 ## Testing the API
 
-You can test the API using the `test_api.sh` script provided in the repository. This script sends a series of POST requests to the API with sample receipt data and retrieves the points for each receipt.
-
-To run the tests, navigate to the project directory and run the following command:
-
-```bash
-./test_api.sh
-```
-
-This will run the tests and display the results.
+There is an attached `test.py` script to run several receipts at once against the API. You may use or edit it as you please. In order to use it, make sure your receipts are all stored in the `examples` directory. First, make sure the service is up and running locally on port 8000 (You should have it already running on this port if you've followed the instructions. Then run `python3 test.py`
