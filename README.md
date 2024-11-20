@@ -22,10 +22,9 @@ The Receipt Processor API is a Flask-based API that processes receipts and calcu
 
 Let's break down what this script does:
 
-1.  `docker stop receipt-processor` - stops the running container
-    `docker rm receipt-processor` - removes the stopped container
-    This ensures you can run the image from fresh. However be aware if you have a container with this name and/or image name running already they WILL be stopped.
-2.
+1.  `docker stop receipt-processor` and `docker rm receipt-processor` stop and remove a container named receipt-processor if it exists.
+2.  `docker build -t receipt-processor .` builds the container containing the webservice in according to the specifications outlined in the Dockerfile. You'll notice there is a set of requirements outliend by `requirements.txt` - this contains all the libraries the webservice needs to run correctly. Make sure that file is present in the same directory as Dockerfile. Additionally, this webservice is built on the official python docker container,
+3.
 
 This will start the API in detached mode, mapping port 8000 on the host machine to port 8000 in the container.
 

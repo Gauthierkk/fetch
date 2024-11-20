@@ -1,6 +1,7 @@
 import math
 import uuid
 import json
+import datetime
 
 def get_receipt_points(id) -> int:
     """
@@ -58,7 +59,32 @@ def validate_receipt(data) -> bool:
         bool: True if all required fields ('retailer', 'purchaseDate', 
               'purchaseTime', 'total', and 'items') are present, False otherwise.
     """
-    return 'retailer' in data and 'purchaseDate' in data and 'purchaseTime' in data and 'total' in data and 'items' in data
+    if 'retailer' not in data or 'purchaseDate' not in data or 'purchaseTime' not in data or 'total' not in data or 'items' not in data:
+        return False
+    
+    try:
+        datetime.date.fromisoformat(data['purchaseDate'])
+        datetime.time.fromisoformat(data['purchaseTime'])
+    except ValueError:
+        return False
+    
+    if item is not list:
+        return False
+
+    for item in data['items']:
+        if 'shortDescription' not in item or 'price' not in item:
+            return False
+        try:
+            float(item['price'])
+        except ValueError:
+            return False
+
+    try:
+        float(data['total'])
+    except ValueError:
+        return False
+
+    return True
 
 def calculate_points(data) -> int:
     """

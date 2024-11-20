@@ -47,7 +47,7 @@ def get_points(id):
         if pts == -1:
             return jsonify({"error": "Receipt does not exist!"}), 400
         else:
-            return jsonify({id: pts}), 200
+            return jsonify({"points": pts}), 200
         
 
 if __name__ == '__main__':
