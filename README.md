@@ -24,9 +24,7 @@ Let's break down what this script does:
 
 1.  `docker stop receipt-processor` and `docker rm receipt-processor` stop and remove a container named receipt-processor if it exists.
 2.  `docker build -t receipt-processor .` builds the container containing the webservice in according to the specifications outlined in the Dockerfile. You'll notice there is a set of requirements outliend by `requirements.txt` - this contains all the libraries the webservice needs to run correctly. Make sure that file is present in the same directory as Dockerfile. Additionally, this webservice is built on the official python docker container,
-3.  `docker run -d --name receipt-processor -p 8000:8000 receipt-processor` spins up the container locally on port 8000 so that the web service can be accessed. In a production environment, you would like be spinning this up either with a web server attached or in an environment with teh required infrastrcuture for it to be accessed for the web.
-
-This will start the API in detached mode, mapping port 8000 on the host machine to port 8000 in the container.
+3.  `docker run -d --name receipt-processor -p 8000:8000 receipt-processor` spins up the container locally making the web service accesible to use. This will start the API in detached mode, mapping port 8000 on the host machine to port 8000 in the container.
 
 ## Using the API
 
