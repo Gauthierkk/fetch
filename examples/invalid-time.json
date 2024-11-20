@@ -1,0 +1,12 @@
+{
+  "retailer": "My Mart",
+  "purchaseDate": "2022-01-01",
+  "purchaseTime": "4:01",
+  "items": [
+    {
+      "shortDescription": "Gatorade",
+      "price": "2.25"
+    }
+  ],
+  "total": "1.00"
+}
